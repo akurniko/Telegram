@@ -1155,6 +1155,7 @@
     <string name="MessageScheduledVote">Voting will become available after the message is published.</string>
     <string name="MessageScheduledVoteResults">Poll results will become available after the message is published.</string>
     <string name="MessageScheduledReminderNotification">&#128197; Reminder</string>
+    <string name="MessageForwardNotAllowed">Sorry, an error occurred. Message forwarding is not allowed.</string>
     <string name="OneResult">1 result</string>
     <string name="VideoQualityIsTooLow">Video quality is too low to change compression settings.</string>
     <string name="TextSelectionHit">Hold the **word**, then move the cursor to select more text to copy.</string>

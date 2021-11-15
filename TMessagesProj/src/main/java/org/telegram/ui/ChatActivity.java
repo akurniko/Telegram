@@ -12239,6 +12239,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private void addToSelectedMessages(MessageObject messageObject, boolean outside, boolean last) {
         int prevCantForwardCount = cantForwardMessagesCount;
+        boolean noForwards = currentChat.noforwards;
         if (messageObject != null) {
             if (threadMessageObjects != null && threadMessageObjects.contains(messageObject)) {
                 return;
@@ -12363,11 +12364,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     forwardButtonAnimation = new AnimatorSet();
                     ArrayList<Animator> animators = new ArrayList<>();
                     if (forwardItem != null) {
-                        forwardItem.setEnabled(cantForwardMessagesCount == 0);
+                        forwardItem.setEnabled(cantForwardMessagesCount == 0 && !noForwards);
                         animators.add(ObjectAnimator.ofFloat(forwardItem, View.ALPHA, cantForwardMessagesCount == 0 ? 1.0f : 0.5f));
                     }
                     if (forwardButton != null) {
-                        forwardButton.setEnabled(cantForwardMessagesCount == 0);
+                        forwardButton.setEnabled(cantForwardMessagesCount == 0 && !noForwards);
                         animators.add(ObjectAnimator.ofFloat(forwardButton, View.ALPHA, cantForwardMessagesCount == 0 ? 1.0f : 0.5f));
                     }
                     forwardButtonAnimation.playTogether(animators);
@@ -12381,12 +12382,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     forwardButtonAnimation.start();
                 } else {
                     if (forwardItem != null) {
-                        forwardItem.setEnabled(cantForwardMessagesCount == 0);
-                        forwardItem.setAlpha(cantForwardMessagesCount == 0 ? 1.0f : 0.5f);
+                        forwardItem.setEnabled(cantForwardMessagesCount == 0 && !noForwards);
+                        forwardItem.setAlpha(cantForwardMessagesCount == 0 && !noForwards ? 1.0f : 0.5f);
                     }
                     if (forwardButton != null) {
-                        forwardButton.setEnabled(cantForwardMessagesCount == 0);
-                        forwardButton.setAlpha(cantForwardMessagesCount == 0 ? 1.0f : 0.5f);
+                        forwardButton.setEnabled(cantForwardMessagesCount == 0 && !noForwards);
+                        forwardButton.setAlpha(cantForwardMessagesCount == 0 && !noForwards ? 1.0f : 0.5f);
                     }
                 }
                 if (saveItem != null) {
@@ -19479,6 +19480,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         boolean allowChatActions = true;
         boolean allowPin;
+        boolean noForwards = currentChat.noforwards;
         if (chatMode == MODE_SCHEDULED || isThreadChat()) {
             allowPin = false;
         } else if (currentChat != null) {
@@ -19794,7 +19796,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_unfave);
                             }
                         }
-                        if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
+                        if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16 && !noForwards) {
                             items.add(LocaleController.getString("Forward", R.string.Forward));
                             options.add(2);
                             icons.add(R.drawable.msg_forward);
